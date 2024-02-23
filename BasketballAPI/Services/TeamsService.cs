@@ -22,6 +22,7 @@ namespace BasketballAPI.Services
                 entity = await dbContext.Set<TeamModel>()
                     .Include(t=>t.Coaches)
                     .Include(p=>p.Players)
+                    .ThenInclude(p=>p.Position)
                     .Where(w => w.Id == id)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellation);
