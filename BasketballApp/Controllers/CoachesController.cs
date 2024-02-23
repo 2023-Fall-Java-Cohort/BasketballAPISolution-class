@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BasketballDataModel;
 using BasketballApp.Repositories;
+using System.Collections.Generic;
+using System;
 
 namespace BasketballApp.Controllers
 {
@@ -65,6 +67,8 @@ namespace BasketballApp.Controllers
         public async Task<IActionResult> Create(CancellationToken cancellation = default(CancellationToken))
         {
             CoachModel coachModel = new CoachModel();
+            Array? enumList = Enum.GetValues(typeof(CoachTitle));
+            ViewData["CoachTitle"] = new SelectList(enumList);
             ViewData["TeamId"] = new SelectList(await teams.GetAllAsync(cancellation), "Id", "Name");
             return View(coachModel);
         }
@@ -90,6 +94,8 @@ namespace BasketballApp.Controllers
                     this.errorHandler.reportErrors(ex);
                 }
             }
+            Array? enumList = Enum.GetValues(typeof(CoachTitle));
+            ViewData["CoachTitle"] = new SelectList(enumList,coachModel.Title);
             ViewData["TeamId"] = new SelectList(await teams.GetAllAsync(cancellation), "Id", "Name", coachModel.TeamId);
             return View(coachModel);
         }
@@ -115,6 +121,8 @@ namespace BasketballApp.Controllers
             {
                 return NotFound();
             }
+            Array? enumList = Enum.GetValues(typeof(CoachTitle));
+            ViewData["CoachTitle"] = new SelectList(enumList);
             ViewData["TeamId"] = new SelectList(await teams.GetAllAsync(cancellation), "Id", "Name", coachModel.TeamId);
 
             return View(coachModel);
@@ -145,6 +153,8 @@ namespace BasketballApp.Controllers
                     this.errorHandler.reportErrors(ex);
                 }
             }
+            Array? enumList = Enum.GetValues(typeof(CoachTitle));
+            ViewData["CoachTitle"] = new SelectList(enumList);
             ViewData["TeamId"] = new SelectList(await teams.GetAllAsync(cancellation), "Id", "Name", coachModel.TeamId);
             return View(coachModel);
         }

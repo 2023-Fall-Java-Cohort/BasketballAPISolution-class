@@ -14,6 +14,22 @@ namespace BasketballAPI.Services
             this.dbContext = dbContext;
             this.logger = logger;
         }
+
+        public override async ValueTask<List<CoachModel>> GetAllAsync(CancellationToken cancellation = default)
+        {
+            try
+            {
+                return await dbContext.Set<CoachModel>()
+                    .Include(t => t.Team)
+                    .AsNoTracking()
+                    .ToListAsync(cancellation);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error getting all {className} from the Database");
+                throw;
+            }
+        }
         public override async ValueTask<CoachModel?> GetAsync(int id, CancellationToken cancellation = default)
         {
             CoachModel? entity;
@@ -23,6 +39,7 @@ namespace BasketballAPI.Services
                     .Where(w => w.Id == id)
                     .Include(t=>t.Team)
                     .ThenInclude(p => p.Players)
+                     .ThenInclude(p => p.Position)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellation);
                 if (entity is null)
