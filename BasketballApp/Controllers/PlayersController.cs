@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BasketballDataModel;
 using BasketballApp.Repositories;
 
-namespace BasketballApp.Controllers
+namespace BasketballApp.Controllers { 
     public class PlayersController : Controller
     {
         private readonly IPlayersRepository players;
